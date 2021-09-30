@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>
+    Roll The Dice Registration
+  </title>
+  <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<form action="">
+  <label for="">Email</label> x <br>
+  <input name="name" type="text" id="name" class="information"><br>
+  <label for="">Passwort</label> <br>
+  <input name="description" type="text" id="description" class="information"><br>
+
+</form>
+<button id="button">register</button>
+<script>
+  /*sammelt die infos aus allen Inputfeldern.  */
+
+  $(document).ready(function() {
+    $.fn.getContent = function() {
+      var name = $("input[type=text]").map(function() {
+        return $(this).val();
+      }).get();
+
+      return name;
+    }
+    $("button").click(function() {
+      var a = getContent();
+      alert("hello " + a);
+    });
+
+  });
+</script>
+</body>
+</html>

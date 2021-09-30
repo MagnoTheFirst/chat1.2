@@ -1,11 +1,11 @@
 package com.example.chatdemo.model;
+
 import javax.persistence.*;
-import java.time.LocalDate;
 
 
 @Entity
 @Table
-public class User {
+public class UserAccount {
 
     @Id
     @SequenceGenerator
@@ -24,18 +24,18 @@ public class User {
     private String email;
     private String password;
 
-    public User(Long id, String email, String password) {
+    public UserAccount(Long id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
     }
 
-    public User(String email, String password) {
+    public UserAccount(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User() {
+    public UserAccount() {
 
     }
 
@@ -65,7 +65,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserAccount{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
