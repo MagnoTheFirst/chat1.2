@@ -1,5 +1,6 @@
 package com.example.chatdemo.services;
 
+import com.example.chatdemo.model.Dice;
 import com.example.chatdemo.model.User;
 import com.example.chatdemo.model.UserAccount;
 import com.example.chatdemo.repos.UserRepository;
@@ -37,13 +38,14 @@ public class UserService {
         return false;
     }
 
-    public void addNewUser(UserAccount user){
+    public boolean addNewUser(UserAccount user){
         if(checkIfUserExists(user.getEmail()))
         {
-            System.out.println("user exists");
+            return true;
         }
         else{
             userrepo.saveAndFlush(user);
+            return false;
         }
     }
 }

@@ -37,8 +37,10 @@ public class RegistrationController {
 
     @PostMapping("api/v1/register")
     public String addNewUser(@ModelAttribute("user") UserAccount user){
-        userService.addNewUser(user);
-        return "registration-status";
+        if(!userService.addNewUser(user)){
+            return "registration-status";
+        }
+        else{return "user-exists";}
     }
 
 
