@@ -10,31 +10,13 @@
 </head>
 
 <body>
-<form action="">
-  <label for="">Email</label> x <br>
-  <input name="name" type="text" id="name" class="information"><br>
-  <label for="">Passwort</label> <br>
-  <input name="description" type="text" id="description" class="information"><br>
-
+<form action="#" th:action="@{/api/v1/register}" th:object="${user}" method="post">
+  <label>email</label><br>
+  <input type="text" th:field="*{email}"/><br/>
+  <label>password</label><br>
+  <input type="text" th:field="*{password}"/><br/>  <br>
+  <button type="submit" id="button">register</button>
 </form>
-<button id="button">register</button>
-<script>
-  /*sammelt die infos aus allen Inputfeldern.  */
 
-  $(document).ready(function() {
-    $.fn.getContent = function() {
-      var name = $("input[type=text]").map(function() {
-        return $(this).val();
-      }).get();
-
-      return name;
-    }
-    $("button").click(function() {
-      var a = getContent();
-      alert("hello " + a);
-    });
-
-  });
-</script>
 </body>
 </html>
