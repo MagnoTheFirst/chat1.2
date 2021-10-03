@@ -8,6 +8,10 @@
 </head>
 <body>
 <h1>Dice Value</h1>
-<h2 th:text="${}" ></h2>
+<form action="#" th:action="@{api/v1/get-dice-value}" th:object="${dice}" method="get">
+    <label>Würfel</label><br>
+    <input type="text" th:value="${dice.getDice_value()}"/><br/>
+    <button type="submit" id="button">roll the dice</button>
+</form>
 </body>
 </html>

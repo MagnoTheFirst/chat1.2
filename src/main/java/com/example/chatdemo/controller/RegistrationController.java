@@ -31,7 +31,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/users")
-    public List<UserAccount> getStock(){
+    public List<UserAccount> getUsers(){
         return userService.getUsers();
     }
 

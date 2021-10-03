@@ -4,19 +4,27 @@ import java.util.Random;
 
 public class Dice {
 
-    int number_of_used_dices;
-    int dice_value;
+    public Integer dice_value;
+    public Integer number_of_used_dice;
+
 
     //Number have to be in range 0-2
-    public Dice(int number_of_used_dices) {
-        number_of_used_dices = number_of_used_dices;
+    public Dice(Integer number_of_used_dice) {
+        number_of_used_dice = number_of_used_dice;
+    }
+
+    public Dice() {
+        this.number_of_used_dice = 1;
+
     }
 
     public Integer roll_the_dice(){
         Random random = new Random();
         Integer dice_value;
-        switch (number_of_used_dices){
-
+        switch (number_of_used_dice){
+            case 0:
+                dice_value = random.nextInt(5);
+                return dice_value;
             case 1:
                 dice_value = random.nextInt(5);
                 return dice_value;
@@ -34,5 +42,19 @@ public class Dice {
         return random.nextInt(5);
     }
 
+    public int getNumber_of_used_dices() {
+        return number_of_used_dice;
+    }
 
+    public void setNumber_of_used_dices(int number_of_used_dices) {
+        this.number_of_used_dice = number_of_used_dices;
+    }
+
+    public int getDice_value() {
+        return dice_value;
+    }
+
+    public void setDice_value(int dice_value) {
+        this.dice_value = dice_value;
+    }
 }
