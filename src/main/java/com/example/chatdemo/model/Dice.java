@@ -23,23 +23,23 @@ public class Dice {
         Integer dice_value;
         switch (number_of_used_dice){
             case 0:
-                dice_value = random.nextInt(5);
-                return dice_value;
+                dice_value = random.nextInt(6);
+                return dice_value+1;
             case 1:
-                dice_value = random.nextInt(5);
-                return dice_value;
+                dice_value = random.nextInt(6);
+                return dice_value+1;
             case 2:
-                dice_value = random.nextInt(11);
-                return dice_value;
+                dice_value = random.nextInt(12);
+                return dice_value+1;
 
             case 3:
-                dice_value = random.nextInt(17);
-                return dice_value;
+                dice_value = random.nextInt(18);
+                return dice_value+1;
             case 4:
-                dice_value = random.nextInt(23);
-                return dice_value;
+                dice_value = random.nextInt(24);
+                return dice_value+1;
         }
-        return random.nextInt(5);
+        return random.nextInt(6);
     }
 
     public int getNumber_of_used_dices() {
