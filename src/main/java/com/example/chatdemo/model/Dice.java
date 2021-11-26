@@ -15,12 +15,13 @@ public class Dice {
 
     public Dice() {
         this.number_of_used_dice = 1;
+        dice_value = roll_the_dice();
 
     }
 
     public Integer roll_the_dice(){
         Random random = new Random();
-        Integer dice_value;
+
         switch (number_of_used_dice){
             case 0:
                 dice_value = random.nextInt(6);
@@ -39,7 +40,8 @@ public class Dice {
                 dice_value = random.nextInt(24);
                 return dice_value+1;
         }
-        return random.nextInt(6);
+        dice_value = random.nextInt(6);
+        return dice_value;
     }
 
     public int getNumber_of_used_dices() {
@@ -50,7 +52,7 @@ public class Dice {
         this.number_of_used_dice = number_of_used_dices;
     }
 
-    public int getDice_value() {
+    public Integer getDice_value() {
         return dice_value;
     }
 

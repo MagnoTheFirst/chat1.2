@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -12,7 +12,11 @@
 <noscript>
   <h2>Scheint als ob der Browser kein JavaScript supported</h2>
 </noscript>
-
+<form action="#" th:action="@{api/v1/get-dice-value}" th:object="${dice}" method="get">
+  <label>Würfel</label><br>
+  <input type="text" th:value="${dice.getDice_value()}"/><br/>
+  <button type="submit" id="button">roll the dice</button>
+</form>
 <div id="username-page">
   <div class="username-page-container">
     <h1 class="title">Dein Name</h1>
