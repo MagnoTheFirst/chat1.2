@@ -9,16 +9,15 @@ var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
-var username = null;
+var username = "Alejandro Laneri";
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
-function connect(event) {
-    username = document.querySelector('#name').value.trim();
-
+function connect() {
+    username = "Alejandro Laneri";
     if(username) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
@@ -28,7 +27,7 @@ function connect(event) {
 
         stompClient.connect({}, onConnected, onError);
     }
-    event.preventDefault();
+    //event.preventDefault();
 }
 
 
@@ -69,10 +68,18 @@ function send(event) {
 }
 
 
+
 function onMessageReceived(payload) {
+    var xmlHttp = new XMLHttpRequest();
+    var url = 'http://localhost:8081/api/v1/get_all_messages';
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    var chatConversations = JSON.parse(xmlHttp.responseText);
+    alert(chatConversations);
     var message = JSON.parse(payload.body);
 
     var messageElement = document.createElement('li');
+
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
@@ -92,14 +99,28 @@ function onMessageReceived(payload) {
 
         var usernameElement = document.createElement('span');
         var usernameText = document.createTextNode(message.sender);
+        var datetime = document.createTextNode(chatConversations[i].localDateTime);
+
+
         usernameElement.appendChild(usernameText);
+        usernameElement.appendChild(datetime);
         messageElement.appendChild(usernameElement);
     }
 
+    var usernameElement = document.createElement('span');
+    var usernameText = document.createTextNode(message.sender);
+    var datetime = document.createTextNode(chatConversations[i].localDateTime);
+
+
+    usernameElement.appendChild(usernameText);
+    usernameElement.appendChild(datetime);
+    messageElement.appendChild(usernameElement);
+
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
 
+
+    textElement.appendChild(messageText);
     messageElement.appendChild(textElement);
 
     messageArea.appendChild(messageElement);
@@ -117,5 +138,9 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true)
+
+
+connect();
+
+//usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', send, true)

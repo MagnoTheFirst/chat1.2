@@ -15,31 +15,33 @@ public class Dice {
 
     public Dice() {
         this.number_of_used_dice = 1;
+        dice_value = roll_the_dice();
 
     }
 
     public Integer roll_the_dice(){
         Random random = new Random();
-        Integer dice_value;
+
         switch (number_of_used_dice){
             case 0:
-                dice_value = random.nextInt(5);
-                return dice_value;
+                dice_value = random.nextInt(6);
+                return dice_value+1;
             case 1:
-                dice_value = random.nextInt(5);
-                return dice_value;
+                dice_value = random.nextInt(6);
+                return dice_value+1;
             case 2:
-                dice_value = random.nextInt(11);
-                return dice_value;
+                dice_value = random.nextInt(12);
+                return dice_value+1;
 
             case 3:
-                dice_value = random.nextInt(17);
-                return dice_value;
+                dice_value = random.nextInt(18);
+                return dice_value+1;
             case 4:
-                dice_value = random.nextInt(23);
-                return dice_value;
+                dice_value = random.nextInt(24);
+                return dice_value+1;
         }
-        return random.nextInt(5);
+        dice_value = random.nextInt(6);
+        return dice_value;
     }
 
     public int getNumber_of_used_dices() {
@@ -50,7 +52,7 @@ public class Dice {
         this.number_of_used_dice = number_of_used_dices;
     }
 
-    public int getDice_value() {
+    public Integer getDice_value() {
         return dice_value;
     }
 
