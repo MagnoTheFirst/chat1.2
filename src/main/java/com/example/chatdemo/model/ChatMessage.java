@@ -1,5 +1,7 @@
 package com.example.chatdemo.model;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,6 +28,17 @@ public class ChatMessage {
     private MessageType type;
 
     private LocalDateTime dateTime;
+
+    public ChatMessage() {
+        this.dateTime = LocalDateTime.now();
+    }
+
+    public ChatMessage(String content, String sender, MessageType type) {
+        this.content = content;
+        this.sender = sender;
+        this.type = type;
+        this.dateTime = LocalDateTime.now();
+    }
 
     public enum MessageType {
         CHAT, LEAVE, JOIN

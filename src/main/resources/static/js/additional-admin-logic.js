@@ -1,4 +1,4 @@
-'use strict';
+
 
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
@@ -8,7 +8,6 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
-var stompClient = null;
 var username = "Alejandro Laneri";
 
 var colors = [
@@ -16,70 +15,62 @@ var colors = [
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
-function connect() {
-    username = "Alejandro Laneri";
-    if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
-
-        var socket = new SockJS('/websocket');
-        stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, onConnected, onError);
-    }
-    //event.preventDefault();
-}
-
-
-function onConnected() {
-    // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
-
-    // Tell your username to the server
-    stompClient.send("/app/chat.register",
-        {},
-        JSON.stringify({sender: username, type: 'JOIN'})
-    )
-
-    connectingElement.classList.add('hidden');
-}
-
-
-function onError(error) {
-    connectingElement.textContent = 'Es war nicht möglich eine Verbindung herzustellen';
-    connectingElement.style.color = 'red';
-}
-
-
-function send(event) {
-    var messageContent = messageInput.value.trim();
-
-    if(messageContent && stompClient) {
-        var chatMessage = {
-            sender: username,
-            content: messageInput.value,
-            type: 'CHAT'
-        };
-
-        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-        messageInput.value = '';
-    }
-    event.preventDefault();
-}
-
-
-
-function onMessageReceived(payload) {
+function loadChatConversations(){
     var xmlHttp = new XMLHttpRequest();
     var url = 'http://localhost:8081/api/v1/get_all_messages';
     xmlHttp.open( "GET", url, false ); // false for synchronous request
     xmlHttp.send( null );
-    var chatConversations = JSON.parse(xmlHttp.responseText);
-    alert(chatConversations);
+    return xmlHttp.responseText;
+}
+
+function showChatConversation(){
+    var chatConversations = JSON.parse(loadChatConversations());
+
+    for(var i = 0; i < chatConversations.length; i++){
+        console.log(JSON.stringify(chatConversations[i].sender));
+
+        var messageElement = document.createElement('li');
+        messageElement.classList.add('chat-message');
+
+        var avatarElement = document.createElement('i');
+        var avatarText = document.createTextNode(chatConversations[i].sender[0]);
+        var datetime = document.createTextNode(chatConversations[i].localDateTime);
+
+        avatarElement.appendChild(avatarText);
+        avatarElement.style['background-color'] = getAvatarColor(chatConversations[i].sender);
+        messageElement.appendChild(avatarElement);
+
+        //alert(JSON.parse(datetime));
+
+        var usernameElement = document.createElement('span');
+        var dateElement = document.createElement('span');
+        var usernameText = document.createTextNode(chatConversations[i].sender);
+
+        usernameElement.appendChild(usernameText);
+        usernameElement.appendChild(datetime);
+        messageElement.appendChild(usernameElement);
+
+        var textElement = document.createElement('p');
+        var messageText = document.createTextNode(chatConversations[i].content);
+
+        textElement.appendChild(messageText);
+        messageElement.appendChild(textElement);
+
+        messageArea.appendChild(messageElement);
+        messageArea.scrollTop = messageArea.scrollHeight;
+
+    }
+/*
+    for(var i = 0; i < chatConversations.length; i++){
+
+
+    }*/
+}
+
+function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
     var messageElement = document.createElement('li');
-
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
@@ -99,28 +90,14 @@ function onMessageReceived(payload) {
 
         var usernameElement = document.createElement('span');
         var usernameText = document.createTextNode(message.sender);
-        var datetime = document.createTextNode(chatConversations[i].localDateTime);
-
-
         usernameElement.appendChild(usernameText);
-        usernameElement.appendChild(datetime);
         messageElement.appendChild(usernameElement);
     }
 
-    var usernameElement = document.createElement('span');
-    var usernameText = document.createTextNode(message.sender);
-    var datetime = document.createTextNode(chatConversations[i].localDateTime);
-
-
-    usernameElement.appendChild(usernameText);
-    usernameElement.appendChild(datetime);
-    messageElement.appendChild(usernameElement);
-
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.content);
-
-
     textElement.appendChild(messageText);
+
     messageElement.appendChild(textElement);
 
     messageArea.appendChild(messageElement);
@@ -137,10 +114,3 @@ function getAvatarColor(messageSender) {
     var index = Math.abs(hash % colors.length);
     return colors[index];
 }
-
-
-
-connect();
-
-//usernameForm.addEventListener('submit', connect, true)
-messageForm.addEventListener('submit', send, true)
